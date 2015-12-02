@@ -1,8 +1,8 @@
 var Queue = function() {
   // Hey! Rewrite in the new style. Your code will wind up looking very similar,
   // but try not not reference your old code in writing the new style.
-  var obj = Object.create(Queue.constructor.prototype);
-
+  var obj = Object.create(queueMethods);
+  //var obj = Object.create(queueMethods.constructor.prototype);
 
   obj.frontOfTheQueue = 0;
   obj.pSize = 0;
@@ -13,7 +13,7 @@ var Queue = function() {
 
 };
 var queueMethods = {};
-queueMethods = Queue.constructor.prototype;
+//var queueMethods = Queue.constructor.prototype;
 
 console.log("1",queueMethods);
 queueMethods.enqueue = function(value){
