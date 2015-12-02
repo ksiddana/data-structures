@@ -1,7 +1,10 @@
 var Stack = function() {
   // Hey! Rewrite in the new style. Your code will wind up looking very similar,
   // but try not not reference your old code in writing the new style.
-  var obj = Object.create(Stack.constructor.prototype);
+  
+  //prototypal doesn't have to use the word prototype.
+  var obj = Object.create(stackMethods);
+  // var obj = Object.create(Stack.constructor.prototype);
 
   //remember the number of elements
   obj.pSize = 0;
@@ -13,7 +16,8 @@ var Stack = function() {
 
 };
 
-var stackMethods = Stack.constructor.prototype;
+var stackMethods = {};
+// var stackMethods = Stack.constructor.prototype;
 
 stackMethods.push = function(value){
   //store the new value at the top of the stack
