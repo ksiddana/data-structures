@@ -62,3 +62,7 @@ stackMethods.size = function() {
   return this.pSize;
 };
 
+stack1 = new Stack();
+stack1.pSize = 10;
+
+
