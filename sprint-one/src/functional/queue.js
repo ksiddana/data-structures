@@ -1,4 +1,4 @@
-var Queue = function(){
+/*var Queue = function(){
   var someInstance = {};
 
   // Use an object with numeric keys to store values
@@ -49,4 +49,38 @@ var Queue = function(){
   };
 
   return someInstance;
+};*/
+
+var Queue = function() {
+  
+  var someInstance = {};
+
+  var pSize = 0;
+  var firstInLine = 0;
+
+  someInstance.enqueue = function(value) {
+    someInstance[pSize + firstInLine] = value;
+    pSize++;
+  };
+
+  someInstance.dequeue = function() {
+    var returnVal;
+
+    if (pSize > 0) {
+      returnVal = someInstance[firstInLine];
+      someInstance[firstInLine] = undefined;  
+      pSize--;
+      firstInLine++;
+    }
+
+    return returnVal;
+
+  };
+
+  someInstance.size = function() {
+    return pSize;
+  };
+
+  return someInstance;
+
 };
