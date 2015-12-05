@@ -8,19 +8,10 @@ HashTable.prototype.insert = function(k, v){
 
   var i = getIndexBelowMaxForKey(k, this._limit);
 
-  /*
-  hashTable.insert(v1, v1);
-  hashTable.insert(v2, v2);
-  expect(hashTable.retrieve(v1)).to.equal(v1);
-  expect(hashTable.retrieve(v2)).to.equal(v2);
-  */
-
   // First insert the value
   // If another value is inserted with the same key
   // Create a sub array
 
-  
-  
   if (this._storage[i] !== undefined) {
   
     for (var j = 0; j < this._storage[i].length; j++) {
