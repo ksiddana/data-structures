@@ -19,7 +19,6 @@ setPrototype.contains = function(item){
 	// Check the object's storage property for a key with the value of the item
 	// if the item is found, return true else break out of the for loop and return false
 	for (var key in this._storage) {
-		console.log(this._storage[key]);
 		if (this._storage[key] === item) {
 			return true;
 		}

@@ -6,7 +6,6 @@ var LinkedList = function(){
   list.addToTail = function(value){
 
     var node = new Node(value);
-    console.log("This:", this);
 
     if (list.tail === null && list.head === null) {
       
@@ -16,6 +15,9 @@ var LinkedList = function(){
     } else {
 
       // Extend the list by, changing the last node label/reference to now refer to the new node
+      // The next, value are both just variables, one holding a value
+      // one holding the address of the next node. so 0x000FFF (Node)
+      // Let's say 000 = value, FFF = Address of the next object reference (NEXT).
       list.tail.next = node;
 
       // Now you want the new node to be assigned as the tail.
@@ -48,24 +50,23 @@ var LinkedList = function(){
 
   list.contains = function(target) {
     
-    // Declare a variable that is assigned the to the Head element in the Linked List
-    var node = list.head;
+    var found = false;
 
-    // We want to loop through all the nodes, until there is no next 
-    while(node) {
+    var findLinkedList = function(node) {
 
-      // Check the target against the current node value
+      // Find the value here
       if (node.value === target) {
+        found = true;
+      } 
+      // Condition for when we want to recursively call on the nodes
+      if (node.next && !found) {
 
-        // If it finds the target return True.
-        return true;
+        findLinkedList(node.next);
       }
-      // *** Update the variable with the current node's NEXT value 
-      node = node.next;
     }
-    // If it didn't find the target in the all the nodes, return false
-    return false;
 
+    findLinkedList(this.head);
+    return found;
   };
   return list;
 };

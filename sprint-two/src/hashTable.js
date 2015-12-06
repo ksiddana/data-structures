@@ -15,7 +15,7 @@ HashTable.prototype.insert = function(k, v){
   if (this._storage[i] !== undefined) {
   
     for (var j = 0; j < this._storage[i].length; j++) {
-      console.log(this._storage[i]);
+      // console.log(this._storage[i]);
       // console.log("Return that the element is in the Collision Array");
       
       if (this._storage[i][j] === k) {
@@ -65,7 +65,7 @@ HashTable.prototype.remove = function(k){
 
 
         this._storage[i][j+1] = null;        
-        console.log(this._storage[i][j]);
+        // console.log(this._storage[i][j]);
       }
     }
   }
