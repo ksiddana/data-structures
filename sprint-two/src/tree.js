@@ -25,27 +25,24 @@ treeMethods.addChild = function(value){
 
 treeMethods.contains = function(target){
   //goal: search recursively through tree to find target and tell us if it is in the 
-  //tree or not
-    var parentNode = this;
+  //tree or not  
 
-    for (var i = 0; i < parentNode.children.length; i++) {
-      var firstChild = parentNode.children[i]
-      
-      if (firstChild.value === target) {
-        // console.log("First Level Node: ", firstChild.value);
-        return true;
-      } else if (firstChild.children) {
-          
-          for (var j = 0; j < firstChild.children.length; j++) {
-                if (firstChild.children[j].value === target) {
-              return true;
-            }
-          }
-      }
+  var found = false;
 
-      
+  var searchTargetElement = function(node) {
+
+    if (node.value === target) {
+      found = true;
     }
-    return false;  
+
+    for (var i = 0; i < node.children.length; i++) {
+      searchTargetElement(node.children[i]);
+    }
+
+  };
+
+  searchTargetElement(this);
+  return found;
 };
 
 
