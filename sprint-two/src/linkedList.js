@@ -6,29 +6,44 @@ var LinkedList = function(){
   list.addToTail = function(value){
 
     var node = new Node(value);
+    console.log("This:", this);
 
-    console.log("Adding Value to Tail: ", value);
-
-    if (list.tail === null) {
+    if (list.tail === null && list.head === null) {
       
+      list.head = node;
       list.tail = node;
-      if (list.head === null) {
-        list.head = node;
-        list.head.next = list.tail;
-      }
-    } else {
-      var oldTail =  list.tail;
-      list.tail = node;
-      oldTail.next = node;  
 
+    } else {
+
+      // Extend the list by, changing the last node label/reference to now refer to the new node
+      list.tail.next = node;
+
+      // Now you want the new node to be assigned as the tail.
+      list.tail = node;
     }
   };
 
   list.removeHead = function(){
-    var oldHead = list.head;
+    
+    // When the list is empty
+    if (list.head === null) {
+      return null;
+    }
+
+    // Before we reassign the label head to the next node in the list
+    // we want to save a reference/label to the head, because that is what we
+    // want to return
+    var tempHead = list.head;
+
+    // Reassigning the label/reference of head to the next node in the list
     list.head = list.head.next;
-    delete oldHead;
-    return oldHead.value;
+
+    // We also want to remove the reference to the list
+    tempHead.next = null;
+
+    // Return the value using the label stored earlier
+    return tempHead.value;
+
   };
 
   list.contains = function(target) {
