@@ -5,12 +5,6 @@ var BinarySearchTree = function(value){
 
 	newTree.left = null;
 	newTree.right = null;
-	
-	/*	if (obj.root.left > obj.root) {
-		obj.right = value;
-	} else {
-		obj.left = value;
-	}*/
 
 	return newTree;
 
@@ -20,7 +14,7 @@ binarySearchTreeMethods = {};
 
 binarySearchTreeMethods.insert = function(input) {
 
-	console.log("Instance Calling the tree", this);
+	// console.log("Instance Calling the tree", this);
 	
 	if (this.contains(input)) {
 		console.log("Already Contains");
@@ -81,17 +75,39 @@ binarySearchTreeMethods.contains = function(input) {
 		if (node.right !== null && node.value > input ) {
 			recursiveCall(node.left);
 		}
-	}
-	
-	//
+	};
+
+	// This will start the recursion through the entire linked list.
 	recursiveCall(this);
 	return found;
 
 };
 
-binarySearchTreeMethods.depthFirstLog = function() {
+binarySearchTreeMethods.depthFirstLog = function(callback) {
 
-	//
+	// Pass a callback to the depthFirstLog
+	// Method that accepts a callback
+	// executes it on every value contained in the tree
+	// Pass in the this value
+	// Perform the callback function on every element of the tree
+	
+	var recursiveOnEveryElement = function(node) {
+
+		console.log("recursing");
+
+		if (node) {
+			callback(node.value);
+		}
+		
+		if (node.right !== null) {
+			recursiveOnEveryElement(node.right);
+		}
+
+		if (node.left !== null) {
+			recursiveOnEveryElement(node.left);
+		}
+	}
+	recursiveOnEveryElement(this);
 
 };
 
