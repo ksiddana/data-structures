@@ -1,6 +1,7 @@
 var HashTable = function(){
   this._limit = 8;
   this._storage = LimitedArray(this._limit);
+  this.__count = 0;
   
 };
 
@@ -9,7 +10,7 @@ HashTable.prototype.insert = function(k, v){
   var idx = getIndexBelowMaxForKey(k, this._limit);
 
   // Initally the values in the Hash Table are all undefined
-  // If you encounter an index that is empty and you want to insert and
+  // If you en_counter an index that is empty and you want to insert and
   // element, you have to put it in a bucket, you can't just put the tuple in the bucket
 
   
@@ -51,6 +52,16 @@ HashTable.prototype.insert = function(k, v){
 
       // Insert a new tuple    
       bucket.push([k,v]);
+
+      // Everytime, you enter a bucket you want to increment the counter
+      this._count++;
+      
+      // Check if the Hash Table has increased by 75% of the limit  
+      if (this._count > this._limit * 0.75) {
+
+        // if it has increased, then resize it and rearrange the elements in the Hast Table
+        this.resize(this._limit * 2);
+      }
     }
 };
 
@@ -104,6 +115,15 @@ HashTable.prototype.remove = function(k){
     var tuple = bucket[i];
     if (tuple[0] === k) {
       bucket.splice(i, 1);
+
+      // Decrement the counter
+      this._count--;
+
+      // Resizing the Hash Table
+      if (this._count < this.limt * 0.25) {
+        this.resize(this._limit / 2);
+      }
+
       return tuple[1];
     }
   }
@@ -112,6 +132,30 @@ HashTable.prototype.remove = function(k){
   return null;
 };
 
+HashTable.prototype.resize = function(newLimit) {
+   
+  // Lets store a reference to the data, if we don't want to start,
+  // the data in our storage.  
+  var oldStorage = this._storage;
+
+  this._limit = newLimit;
+  this._storage = LimitedArray(newLimit);
+  this._count = 0;
+
+  // iterate over the oldStorage
+  oldStorage.each(function(bucket) {
+    
+    if (!bucket) {
+      return;
+    }
+    // re-insert the tuples
+    for (var i = 0; i < bucket.length; i++) {
+      var tuple = bucket[i];
+      this.insert(tuple[0], tuple[1]);
+    }
+  }.bind(this)); // the bind function binds this to the function invokation left of the dot
+  // see where this function has been invoked and binds that context to this function.
+};
 
 
 /*
