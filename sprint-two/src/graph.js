@@ -119,7 +119,27 @@ Graph.prototype.removeEdge = function(fromNode, toNode){
 
 // ------------------------
 // Pass in a callback which will be executed on each node of the graph.
-Graph.prototype.forEachNode = function(cb){
+Graph.prototype.forEachNode = function(callback){
+
+  for (var key in this.obj) {
+    callback(key);
+  }
+
+/*  var recursiveCallOnGraphNode = function(node) {
+
+    console.log("Recursion: ", node);
+
+    if (node) {
+      callback(node.obj);
+    }
+
+    if (node !== null) {
+      recursiveCallOnGraphNode(node.)
+    }
+
+  }
+
+  recursiveCallOnGraphNode(this);*/
 };
 
 

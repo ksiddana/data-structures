@@ -93,7 +93,6 @@ binarySearchTreeMethods.depthFirstLog = function(callback) {
 	
 	var recursiveOnEveryElement = function(node) {
 
-		console.log("recursing");
 
 		if (node) {
 			callback(node.value);
