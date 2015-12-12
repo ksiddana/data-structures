@@ -24,9 +24,9 @@ binarySearchTreeMethods.insert = function(input) {
 
 		var findingWhereToInsert = function(parentValue) {
 
+		// if the this/parentValue is GREATER than target/input	
+		// we want to 
 		if (input < parentValue.value) {
-		// If the input tree value is less than the parent Value
-		// We want to make a Left Tree
 
 			if (parentValue.left === null) {
 
@@ -93,21 +93,25 @@ binarySearchTreeMethods.depthFirstLog = function(callback) {
 	
 	var recursiveOnEveryElement = function(node) {
 
-
+		// if the node exists, you want to perform the callback function on the value of the node
 		if (node) {
 			callback(node.value);
 		}
 		
+		// if node.right is NOT null, means there exists a child, you want to recursively
+		// call the function on the right node.
 		if (node.right !== null) {
 			recursiveOnEveryElement(node.right);
 		}
 
+		// if the node.left is NOT null, means there exists a left child, you want to recursively
+		// call the function on the left node.
 		if (node.left !== null) {
 			recursiveOnEveryElement(node.left);
 		}
 	}
+	// This call starts the recursion call on the "Left of the dot", where the function was invoked.
 	recursiveOnEveryElement(this);
-
 };
 
 
