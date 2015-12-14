@@ -1,44 +1,44 @@
 var Queue = function() {
-  // Hey! Rewrite in the new style. Your code will wind up looking very similar,
-  // but try not not reference your old code in writing the new style.
-  var obj = Object.create(queueMethods);
-  //var obj = Object.create(queueMethods.constructor.prototype);
 
-  obj.frontOfTheQueue = 0;
-  obj.pSize = 0;
+  var obj = Object.create(queueMethods);
 
   obj.storage = {};
-  console.log(obj);
+  obj.returnIndex = 0;
+  obj.insertIndex = 0;
+  obj.pSize = 0;
+
   return obj;
+}
 
-};
-var queueMethods = {};
-//var queueMethods = Queue.constructor.prototype;
+queueMethods = {};
 
-console.log("1",queueMethods);
-queueMethods.enqueue = function(value){
-  var backOfTheQueue = this.frontOfTheQueue + this.pSize;
-  this.storage[backOfTheQueue] = value;
+queueMethods.enqueue = function(value) {
+
+  this.storage[this.insertIndex] = value;
   this.pSize++;
+  this.insertIndex++;
+
 };
 
-queueMethods.dequeue = function(){
-  var returnVal;
-  if(this.pSize > 0){
-    returnVal = this.storage[this.frontOfTheQueue];
-    this.storage[this.frontOfTheQueue] = undefined;
+queueMethods.dequeue = function() {
 
-    this.frontOfTheQueue++;
+  var result;
+
+  if (this.pSize > 0) {
+    result = this.storage[this.returnIndex];
+    delete this.storage[this.returnIndex];
     this.pSize--;
-
-    return returnVal;
+    this.returnIndex++;
   }
+
+  return result;
+
 };
 
-queueMethods.size = function(){
+queueMethods.size = function() {
+
   return this.pSize;
-};
 
-console.log("2",queueMethods);
+};
 
 

@@ -1,37 +1,36 @@
 var Queue = function() {
-  // Hey! Rewrite in the new style. Your code will wind up looking very similar,
-  // but try not not reference your old code in writing the new style.
-  this.pSize = 0;
-  this.frontOfTheQueue = 0;
+
   this.storage = {};
+  this.pSize = 0;
+  this.insertIndex = 0;
+  this.removeIndex = 0;
+
 };
 
-Queue.prototype.enqueue = function(value) {
-  var backOfTheQueue = this.frontOfTheQueue + this.pSize;
-  this.storage[backOfTheQueue] = value;
+Queue.prototype.enqueue = function(value){
+
+  this.storage[this.insertIndex] = value;
   this.pSize++;
+  this.insertIndex++;
+
 };
 
 Queue.prototype.dequeue = function() {
-
-  var returnVal;
-
+  
+  var result;
+  
   if (this.pSize > 0) {
 
-   returnVal = this.storage[this.frontOfTheQueue]; 
-   this.storage[this.frontOfTheQueue] = undefined;
-   this.frontOfTheQueue++;
-   this.pSize--;
-
-   return returnVal;
+    result = this.storage[this.removeIndex];
+    delete this.storage[this.removeIndex];
+    this.pSize--;
+    this.removeIndex++;
   }
 
-   
-
-};
-
-Queue.prototype.size = function () {
-  return this.pSize;
+  return result;
 };
 
 
+Queue.prototype.size = function() {
+ return this.pSize; 
+};
