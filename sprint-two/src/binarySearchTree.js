@@ -1,120 +1,110 @@
 var BinarySearchTree = function(value){
 
-	var newTree = Object.create(binarySearchTreeMethods);
+	var newTree = Object.create(binarySearhMethods);
+
+	newTree.right = null;
+	newTree.left = null;
 	newTree.value = value;
 
-	newTree.left = null;
-	newTree.right = null;
-
 	return newTree;
-
 };
 
-binarySearchTreeMethods = {};
+var binarySearhMethods = {};
 
-binarySearchTreeMethods.insert = function(input) {
+binarySearhMethods.insert = function(node) {
 
-	// console.log("Instance Calling the tree", this);
-	
-	if (this.contains(input)) {
-		console.log("Already Contains");
-	} else {
+	// We want to insert a new Tree using Functional Shared Instantiation pattern
+	// First lets check the value of the current node, if it already exists we should
+	// not be entering the node into the tree
+	// If the node.value is > than the parent node Tree, we should insert the node as a tree
+	// to the right of the tree
 
-		var that = this;
-
-		var findingWhereToInsert = function(parentValue) {
-
-		// if the this/parentValue is GREATER than target/input	
-		// we want to 
-		if (input < parentValue.value) {
-
-			if (parentValue.left === null) {
-
-				parentValue.left = BinarySearchTree(input);
-
-			} else {
-				
-				findingWhereToInsert(parentValue.left)
-			}
-
-		} else if (input > parentValue.value) {
-		// If the input value is greater than the Parent Value
-		// We want to make a Right Tree.
-
-			if (parentValue.right === null ) {
-				
-				parentValue.right = BinarySearchTree(input);
-					
-			} else {
-
-				findingWhereToInsert(parentValue.right);
-			}			
-		} 
+	if (this.value === node) {
+		console.log("Value alredy Exists in the Binary Tree");
+		return;
 	}
-		
-	findingWhereToInsert(this);
 
+	// If the tree's value is greater than the node being inserted, we want to created a
+	// Left tree.
+	if ( this.value > node ) {
+
+		// Before we create a Left Tree, lets check if a Tree already exists there, if a 
+		// Tree does not exist, lets create the Left Tree and assign to the left of the Parent
+		// Tree.
+		if (this.left === null) {
+			this.left = BinarySearchTree(node);
+		} else {
+			// We want to recursively call insert, to check for where the tree is empty on the left
+			// or the right and insert the node at the appropiate place.
+			this.left.insert(node);
+		}
+	} else if ( this.value < node ) {
+
+		// Before we insert the node, lets check if a right tree already exists, that means,
+		// we have to go down that tree and find, its children and only then we can insert the 
+		// value to the right or the left.
+
+		if (this.right === null) {
+			this.right = BinarySearchTree(node);
+		} else {
+			this.right.insert(node);
+		}
 	}
 
 };
 
-binarySearchTreeMethods.contains = function(input) {
+binarySearhMethods.contains = function(target) {
 
 	var found = false;
 
-	var recursiveCall = function(node) {
+	// if the value is found we want to exit from Recursion
+	// Else, lets determine if the left of the tree is
 
-		if (node.value === input) {
+	var searchBinaryTree = function(currentNode) {
+
+		console.log(currentNode);
+
+		// Base Case for exiting the Recursion
+		if (currentNode.value === target) {
 			found = true;
 		}
 
-		if (node.right !== null && node.value < input ) {
-			recursiveCall(node.right);
+		if (currentNode.value < target && currentNode.right !== null ) {
+			searchBinaryTree(currentNode.right);
 		}
 
-		if (node.right !== null && node.value > input ) {
-			recursiveCall(node.left);
+		if (currentNode.value > target && currentNode.left !== null ) {
+			searchBinaryTree(currentNode.left);
 		}
 	};
 
-	// This will start the recursion through the entire linked list.
-	recursiveCall(this);
+	searchBinaryTree(this);
 	return found;
 
 };
 
-binarySearchTreeMethods.depthFirstLog = function(callback) {
+binarySearhMethods.depthFirstLog = function(callback) {
 
-	// Pass a callback to the depthFirstLog
-	// Method that accepts a callback
-	// executes it on every value contained in the tree
-	// Pass in the this value
-	// Perform the callback function on every element of the tree
-	
-	var recursiveOnEveryElement = function(node) {
+	var performCallBackOnEachNode = function(currentNode) {
 
-		// if the node exists, you want to perform the callback function on the value of the node
-		if (node) {
-			callback(node.value);
-		}
-		
-		// if node.right is NOT null, means there exists a child, you want to recursively
-		// call the function on the right node.
-		if (node.right !== null) {
-			recursiveOnEveryElement(node.right);
+		if (currentNode !== null){
+			callback(currentNode.value);
 		}
 
-		// if the node.left is NOT null, means there exists a left child, you want to recursively
-		// call the function on the left node.
-		if (node.left !== null) {
-			recursiveOnEveryElement(node.left);
+		if (currentNode.right !== null) {
+
+			performCallBackOnEachNode(currentNode.right);
 		}
-	}
-	// This call starts the recursion call on the "Left of the dot", where the function was invoked.
-	recursiveOnEveryElement(this);
+
+		if (currentNode.left !== null) {
+			performCallBackOnEachNode(currentNode.left);
+		}
+
+	};
+
+	performCallBackOnEachNode(this);
+
 };
 
 
-/*
- * Complexity: What is the time complexity of the above functions?
- */
+
