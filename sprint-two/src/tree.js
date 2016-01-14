@@ -1,64 +1,43 @@
-var Tree = function(value){
-  var newTree = {};
+var Tree = function(value) {
+
+  var newTree = Object.create(treeMethods);
   newTree.value = value;
-  // your code here
-  newTree.children = [];  
-  newTree.addChild = treeMethods.addChild;
-  newTree.contains = treeMethods.contains;
+  newTree.children = [];
 
   return newTree;
+}
+
+treeMethods = {};
+
+treeMethods.addChild = function(value) {
+
+  // if the tree does not exist, can't add a child.
+  // if the tree exist, create a new tree as a child and also add it to the tree children array
+
+  var child = Tree(value);
+  this.children.push(child);
+
 };
 
-  // your code here
+treeMethods.contains = function(target) {
 
-var treeMethods = {};
-
-treeMethods.addChild = function(value){  
-//goal: add node object to children array of parent
-
-  //create new node
-  //let value argument equal a property in node object 
-  var newNode = Tree(value);
-    //push into children array of parent
-  this.children.push(newNode);
-};
-
-treeMethods.contains = function(target){
-  //goal: search recursively through tree to find target and tell us if it is in the 
-  //tree or not  
-
-  // Define a closure variable so that we return this value, we can manipulate the
-  // value of found inside the function and then return it outside.
   var found = false;
 
-  // Define a closure function to be called recursively on the current node
-  var searchTargetElement = function(node) {
+  var searchTreeElements = function(currentNode){
 
-    // This is the condition that should that finds the element. This tree search
-    // finds the element throughout the tree, it doesn't stop, when the element is found
-    // it goes through the entire tree
-    if (node.value === target) {
+    if (currentNode.value === target) {
       found = true;
     }
 
-    // Go through all the node children, the node.children.length is the base condition
-    // that allows the function to stop and return to the above function.
-    for (var i = 0; i < node.children.length; i++) {
-      searchTargetElement(node.children[i]);
+    for (var i = 0; i < currentNode.children.length; i++) {
+
+      var childTree = currentNode.children[i];
+      searchTreeElements(childTree);
     }
 
-  };
+  }
 
-  // this function starts the recursion call to the node, that takes in the MOST important
-  // parameter, you have to specifiy the node, what is it? the Tree, the DOM, the children, this.
-  searchTargetElement(this);
-
-  // Since, we were able to manipulate the value of found inside the closure function, we can now return the value
-  // of found.
+  searchTreeElements(this);
   return found;
+
 };
-
-
-/*
- * Complexity: What is the time complexity of the above functions?
- */
